@@ -8,12 +8,21 @@
 #include <unistd.h>
 
 typedef struct s_pipex {
-    char **path_to_validate;
-
-
-
-
-}   t_pipex;
+    int pid1;
+    int pid2;
+    int fd1[2];
+    int fd2[2];
+    char **arg_vec1;
+    char **arg_vec2;
+/*    char *cmd_pin;
+    char *arg_in;
+    char *cmd_pout;
+    char *arg_out;*/
+    char *path1;
+    char *path2;
+    char *outfile;
+    char *infile;
+}   data;
 
 size_t	ft_strlen(const char *str);
 size_t	ft_strlcpy(char *dest, const char *src, size_t destsize);
