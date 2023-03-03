@@ -20,14 +20,15 @@ char **find_path(char **envp)
 char *valid_path(char **path, char *argv)
 {
     int i;
+    char *correct_path;
 
     i = 0;
     while(path[i])
     {
-        path[i] = join_strings(path[i], "/", argv);
-        if (access(path[i], X_OK) == 0)
-            return (path[i]);
-        free(path[i]);
+        correct_path = join_strings(path[i], "/", argv);
+        if (access(correct_path, X_OK) == 0) {
+            return (correct_path);
+        }
         i++;
     }
     return (NULL);
@@ -113,35 +114,6 @@ int pipe_function(char *cmd, char **argv, int fd_read, int fd_write)
 }
 */
 
-void clean_ptrs(char **double_ptr)
-{
-    char **tmp;
-
-    tmp = double_ptr;
-    while (*tmp)
-    {
-        free(*tmp);
-        tmp++;
-    }
-    free(double_ptr);
-}
-void clean_data(data *pipex_data)
-{
-    close(pipex_data->fd1[0]);
-    close(pipex_data->fd1[1]);
-
-/*
-    close(pipex_data->fd2);
-*/
-
-    clean_ptrs(pipex_data->arg_vec1);
-    clean_ptrs(pipex_data->arg_vec2);
-    free(pipex_data->path1);
-    free(pipex_data->path2);
-}
-
-
-
 int main(int argc, char *argv[], char **envp)
 {
     data	pipex_data;
@@ -155,19 +127,13 @@ int main(int argc, char *argv[], char **envp)
 /*    char cmd_pout[] = ft_split(argv[3])[0];
     char arg_out[] = ft_split(argv[3])[1];*/
 
-    char **path_to_validate = find_path(envp);
+    pipex_data.path_to_validate = find_path(envp);
 
 
 
     //char *arg_vec[] = {cmd_pin, arg_in, NULL};
-    pipex_data.path1 = valid_path(path_to_validate, "cat"); //potential issue
-    pipex_data.path2 = valid_path(path_to_validate,  pipex_data.arg_vec2[0]);
-
-    /*
-    if (execve(path, argVec, NULL) == -1) {
-        perror("Could not execute");
-    }
-*/
+    pipex_data.path1 = valid_path(pipex_data.path_to_validate, "cat"); //potential issue
+    pipex_data.path2 = valid_path(pipex_data.path_to_validate,  pipex_data.arg_vec2[0]);
 
     if (pipe(pipex_data.fd1) == -1) {
         return 1;
@@ -177,14 +143,8 @@ int main(int argc, char *argv[], char **envp)
         return 1;
     }
 
-   /* close(pipex_data.fd1[0]);
-    close(pipex_data.fd1[1]);
-    close(pipex_data.fd2[0]);
-    close(pipex_data.fd2[1]);*/
 
     waitpid(pipex_data.pid1, NULL, 0);
-    waitpid(pipex_data.pid2, NULL, 0);
-    //clean_ptrs(path_to_validate);
     clean_data(&pipex_data);
 
     return 0;

@@ -6,6 +6,8 @@ size_t	ft_strlen(const char *str)
 {
     size_t	i;
 
+    if (!str)
+        return (0);
     i = 0;
     while (str[i] != '\0')
         i++;
@@ -253,7 +255,7 @@ char *join_strings(const char *str1, const char *str2, const char *str3) {
     size_t len1 = ft_strlen(str1);
     size_t len2 = ft_strlen(str2);
     size_t len3 = ft_strlen(str3);
-    char *result = malloc(len1 + len2 + len3 + 1); // +1 for the terminating null character
+    char *result = malloc((len1 + len2 + len3 + 1) * sizeof(char)); // +1 for the terminating null character
     if (result == NULL) {
         return NULL; // Memory allocation failed
     }
@@ -261,4 +263,32 @@ char *join_strings(const char *str1, const char *str2, const char *str3) {
     ft_strlcat(result, str2, len1 + len2 + len3 + 1);
     ft_strlcat(result, str3, len1 + len2 + len3 + 1);
     return result;
+}
+
+void clean_ptrs(char **double_ptr)
+{
+    char **tmp;
+
+    tmp = double_ptr;
+    while (*tmp)
+    {
+        free(*tmp);
+        tmp++;
+    }
+    free(double_ptr);
+}
+void clean_data(data *pipex_data)
+{
+    close(pipex_data->fd1[0]);
+    close(pipex_data->fd1[1]);
+
+/*
+    close(pipex_data->fd2);
+*/
+
+    clean_ptrs(pipex_data->arg_vec1);
+    clean_ptrs(pipex_data->arg_vec2);
+    free(pipex_data->path1);
+    free(pipex_data->path2);
+    clean_ptrs(pipex_data->path_to_validate);
 }
