@@ -29,6 +29,9 @@ char *valid_path(char **path, char *argv)
         if (access(correct_path, X_OK) == 0) {
             return (correct_path);
         }
+        else {
+            free(correct_path);
+        }
         i++;
     }
     return (NULL);
@@ -119,9 +122,12 @@ int main(int argc, char *argv[], char **envp)
     data	pipex_data;
 
 
-    pipex_data.arg_vec1 = malloc(sizeof(char*) * 2);
+    pipex_data.arg_vec1 = (char**)malloc(sizeof(char*) * 3); //malloc(sizeof(char*) * 2)
     pipex_data.arg_vec1[0] = strdup("cat");
     pipex_data.arg_vec1[1] = strdup(argv[1]);
+    pipex_data.arg_vec1[2] = NULL;
+
+
 
     pipex_data.arg_vec2 = ft_split(argv[2], ' '); // have to free cmd_pin and give a pointer to result [1] of ft_split
 /*    char cmd_pout[] = ft_split(argv[3])[0];
