@@ -280,8 +280,10 @@ void clean_ptrs(char **double_ptr)
 }
 void clean_data(data *pipex_data)
 {
-    close(pipex_data->fd1[0]);
-    close(pipex_data->fd1[1]);
+    close(pipex_data->fd[0][0]);
+    close(pipex_data->fd[0][1]);
+    close(pipex_data->fd[1][0]);
+    close(pipex_data->fd[1][1]);
 
 /*
     close(pipex_data->fd2);

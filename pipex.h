@@ -11,8 +11,7 @@
 typedef struct s_pipex {
     int pid1;
     int pid2;
-    int fd1[2];
-    int fd2[2];
+    int fd[2][2];
     char **arg_vec1;
     char **arg_vec2;
     char **path_to_validate;

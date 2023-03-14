@@ -1,9 +1,1 @@
-total 56
--rw-rw-r-- 1 lbaron lbaron  1277 Mar 13 16:19 Makefile
-drwxrwxr-x 5 lbaron lbaron  4096 Mar 13 14:43 cmake-build-debug
--rw-rw-r-- 1 lbaron lbaron    63 Mar  6 15:51 infile
--rwxrwxr-x 1 lbaron lbaron     0 Mar 14 01:59 outfile
--rwxrwxr-x 1 lbaron lbaron 28384 Mar 14 01:59 pipex
--rw-rw-r-- 1 lbaron lbaron  2607 Mar 14 01:59 pipex.c
--rw-rw-r-- 1 lbaron lbaron  1368 Mar  9 22:17 pipex.h
--rw-rw-r-- 1 lbaron lbaron  5514 Mar 13 16:09 pipexutils.c
+10

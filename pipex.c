@@ -55,23 +55,24 @@ int pipe_function(data *pipex_data, char *argv1, char *argv4)
 
     if (pipex_data->pid1 == 0) {
 
-        pipex_data->fd1[0] = open(argv1, O_RDONLY, 0777);
-        if (pipex_data->fd1[0] == -1)
+        pipex_data->fd[1][0] = open(argv1, O_RDONLY, 0777);
+        if (pipex_data->fd[1][0] == -1)
             printf("cant open file");
 
-        dup2(pipex_data->fd1[0], STDIN_FILENO);
+        dup2(pipex_data->fd[0][1], STDOUT_FILENO);
+        dup2(pipex_data->fd[1][0], STDIN_FILENO);
 
-        close(pipex_data->fd1[0]);
-        close(pipex_data->fd1[1]);
+        close(pipex_data->fd[0][1]);
         execute_program(pipex_data->arg_vec1, pipex_data->path1);
     } else {
-        pipex_data->fd1[1] = open(argv4, O_WRONLY | O_CREAT | O_TRUNC, 0777);
-        if (pipex_data->fd1[1] == -1) {
+        pipex_data->fd[1][1] = open(argv4, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+        if (pipex_data->fd[1][1] == -1) {
             printf("cant open file");
         }
-        dup2(pipex_data->fd1[1], STDOUT_FILENO);
-        close(pipex_data->fd1[0]);
-        close(pipex_data->fd1[1]);
+        dup2(pipex_data->fd[0][0], STDIN_FILENO);
+        dup2(pipex_data->fd[1][1], STDOUT_FILENO);
+
+        close(pipex_data->fd[0][1]);
         execute_program(pipex_data->arg_vec2, pipex_data->path2);
     }
     return 0;
@@ -83,7 +84,7 @@ int main(int argc, char *argv[], char **envp)
 
     if (argc != 5)
     {
-        write(1, "Usage : ./pipex infile cmd1 cmd2 outfile\n", 41);
+        // write(1, "Usage : ./pipex infile cmd1 cmd2 outfile\n", 41);
         return (0);
     }
     pipex_data.arg_vec1 = ft_split(argv[2], ' ');
@@ -96,7 +97,7 @@ int main(int argc, char *argv[], char **envp)
     pipex_data.path1 = valid_path(pipex_data.path_to_validate, pipex_data.arg_vec1[0]);
     pipex_data.path2 = valid_path(pipex_data.path_to_validate, pipex_data.arg_vec2[0]);
 
-    if (pipe(pipex_data.fd1) == -1) {
+    if (pipe(pipex_data.fd[0]) == -1) {
         return 1;
     }
     pipex_data.pid1 = pipe_function(&pipex_data, argv[1], argv[4]);
@@ -107,8 +108,10 @@ int main(int argc, char *argv[], char **envp)
 
 
 
-    close(pipex_data.fd1[0]);
-    close(pipex_data.fd1[1]);
+    close(pipex_data.fd[0][0]);
+    close(pipex_data.fd[0][1]);
+    close(pipex_data.fd[1][0]);
+    close(pipex_data.fd[1][1]);
     waitpid(pipex_data.pid1, NULL, 0);
     clean_data(&pipex_data);
 
