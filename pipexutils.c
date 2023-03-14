@@ -1,5 +1,4 @@
-#include "pipexlib.h"
-
+#include "pipex.h"
 
 
 size_t	ft_strlen(const char *str)
@@ -89,6 +88,8 @@ char	**ft_free(char **strs, int j)
 	while (j-- > 0)
 		free(strs[j]);
 	free(strs);
+    strs = NULL;
+
 	return (NULL);
 }
 
@@ -158,10 +159,10 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 char	**ft_split(char const *s, char c)
 {
 	char			**array;	
-	unsigned int	word_count;
-	unsigned int	i;
+	int	word_count;
+	int	i;
 	unsigned int	len;
-	unsigned int	y;
+    int	y;
 
 	word_count = ft_word_count(s, c);
 	y = -1;
@@ -205,7 +206,7 @@ int		ft_strncmp(const char *s1, const char *s2, size_t n)
 char	*ft_strstr(const char *haystack, const char *needle)
 {
     char	*phaystack;
-    int		needle_len;
+    size_t		needle_len;
 
     phaystack = (char *)haystack;
     needle_len = ft_strlen(needle);
