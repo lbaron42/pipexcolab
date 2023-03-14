@@ -27,8 +27,8 @@ OBJ=$(SRC:.c=.o)
 all:$(NAME)
 
 $(NAME):$(OBJ)
-	$(CC) $(CFLAGS) -c $?
 	$(CC) $(CFLAGS) $? -o $(NAME)
+
 
 
 clean:
@@ -38,9 +38,9 @@ fclean: clean
 	rm -f $(NAME)
 
 ct: fclean
-	rm -f test	
-	
-test: all 
+	rm -f test
+
+test: all
 	$(CC) $(CFLAGS) main.c $(NAME) -o test
 
 re: fclean all
