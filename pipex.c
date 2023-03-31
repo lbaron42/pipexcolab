@@ -51,6 +51,7 @@ int pipe_function(data *pipex_data, char *argv1, char *argv4)
 {
     pipex_data->pid1 = fork();
     if (pipex_data->pid1 < 0) {
+        perror("Error");
         return 2;
     }
 
@@ -63,15 +64,26 @@ int pipe_function(data *pipex_data, char *argv1, char *argv4)
             return (1);
         }
 
-        dup2(pipex_data->fd[0][1], STDOUT_FILENO);
-        dup2(pipex_data->fd[1][0], STDIN_FILENO);
+        if (dup2(pipex_data->fd[0][1], STDOUT_FILENO) == -1)
+        {
+            perror("Error");
+            return (1);
+        }
+        if (dup2(pipex_data->fd[1][0], STDIN_FILENO) == -1)
+        {
+            perror("Error");
+            return (1);
+        }
 
         close(pipex_data->fd[0][0]);
         close(pipex_data->fd[0][1]);
         close(pipex_data->fd[1][0]);
         close(pipex_data->fd[1][1]);
         if (execute_program(pipex_data->arg_vec1, pipex_data->path1) == 1)
+        {
+            perror("Error");
             return (1);
+        }
     } else {
         pipex_data->fd[1][1] = open(argv4, O_WRONLY | O_CREAT | O_TRUNC, 0777);
         if (pipex_data->fd[1][1] == -1) {
@@ -86,7 +98,10 @@ int pipe_function(data *pipex_data, char *argv1, char *argv4)
         close(pipex_data->fd[1][0]);
         close(pipex_data->fd[1][1]);
         if (execute_program(pipex_data->arg_vec2, pipex_data->path2) == 1)
+        {
+            perror("Error");
             return (1);
+        }
     }
     return 0;
 }
@@ -98,6 +113,7 @@ int main(int argc, char *argv[], char **envp)
     if (argc != 5)
     {
         write(1, "Usage : ./pipex infile cmd1 cmd2 outfile\n", 41);
+        perror("Error");
         return (1);
     }
     pipex_data.arg_vec1 = ft_split(argv[2], ' ');
