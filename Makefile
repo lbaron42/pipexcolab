@@ -19,7 +19,7 @@ AR = ar -rc
 CC = cc
 
 
-SRC= pipexutils.c pipex.c
+SRC= pipexutils1.c pipexutils2.c pipexutils3.c pipexutils.c pipex.c
 
 OBJ=$(SRC:.c=.o)
 
@@ -28,8 +28,6 @@ all:$(NAME)
 
 $(NAME):$(OBJ)
 	$(CC) $(CFLAGS) $? -o $(NAME)
-
-
 
 clean:
 	rm -rf $(OBJ)

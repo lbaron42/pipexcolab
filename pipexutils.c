@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipexutils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrizakov <mrizakov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lbaron <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/31 19:46:13 by mrizakov          #+#    #+#             */
-/*   Updated: 2023/03/31 19:47:34 by mrizakov         ###   ########.fr       */
+/*   Created: 2023/03/31 19:56:05 by lbaron            #+#    #+#             */
+/*   Updated: 2023/03/31 19:56:09 by lbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	clean_ptrs(char **double_ptr)
 	free(double_ptr);
 }
 
-void	clean_data(data *pipex_data)
+void	clean_data(t_data *pipex_data)
 {
 	close(pipex_data->fd[0][0]);
 	close(pipex_data->fd[0][1]);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrizakov <mrizakov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lbaron <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/31 19:46:16 by mrizakov          #+#    #+#             */
-/*   Updated: 2023/03/31 19:47:13 by mrizakov         ###   ########.fr       */
+/*   Created: 2023/03/31 19:55:19 by lbaron            #+#    #+#             */
+/*   Updated: 2023/03/31 19:55:21 by lbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ typedef struct s_pipex {
 
 size_t	ft_strlen(const char *str);
 size_t	ft_strlcpy(char *dest, const char *src, size_t destsize);
-void	clean_data(data *pipex_data);
+void	clean_data(t_data *pipex_data);
 void	*ft_memcpy(void *dest, const void *src, size_t n);
 size_t	ft_strlcat(char *dst, const char *src, size_t size);
 char	*ft_strjoin(char const *s1, char const *s2);
@@ -50,6 +50,6 @@ char	*join_strings(const char *str1, const char *str2, const char *str3);
 char	*ft_strnstr(const char *big, const char *little, size_t len);
 void	clean_ptrs(char **double_ptr);
 void	close_3fds(int a, int b, int c);
-int		print_error(void);
+void	print_error(void);
 
 #endif //PIPEX_PIPEXLIB_H
